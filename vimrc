@@ -1,6 +1,7 @@
 set spell spelllang=en_us
 set undofile
 set encoding=utf-8
+set directory=~/.config/nvim/swp
 
 if has('clipboard')
   if has('unnamedplus')  " When possible use + register for copy-paste
