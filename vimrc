@@ -11,6 +11,7 @@ if has('clipboard')
   endif
 endif
 
+imap jk <Esc>
 set nomodeline
 
 " Stop word wrapping
@@ -233,10 +234,10 @@ omap f <Plug>Sneak_f
 omap F <Plug>Sneak_F
 
 " Space ` to toggle file tree
-map ` :VimFiler -explorer<CR>
+map ~ :VimFiler -explorer<CR>
 
 "Space ~ to open file tree from current buffer's dir
-map ~ :VimFilerCurrentDir -explorer -find<CR>
+map ` :VimFilerCurrentDir -explorer -find<CR>
 
 " airline
 let g:airline#extensions#tabline#enabled=1
@@ -249,7 +250,7 @@ let g:indentLine_char = "⟩"
 
 " palenight
 set background=dark
-colorscheme palenight
+"colorscheme palenight
 
 "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
 "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
