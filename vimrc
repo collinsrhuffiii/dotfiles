@@ -16,8 +16,8 @@ set nomodeline
 
 " Stop word wrapping
 set nowrap
-  " Except on Markdown
-  autocmd FileType markdown setlocal wrap
+" Except on Markdown
+autocmd FileType markdown setlocal wrap lbr
 
 set ignorecase
 set number
@@ -30,6 +30,9 @@ set autoindent
 set softtabstop=4
 set shiftwidth=4
 set tabstop=4
+
+autocmd Filetype yaml setlocal ts=2 sw=2 expandtab
+autocmd Filetype xml setlocal ts=2 sw=2 expandtab
 
 set scrolloff=1
 set sidescrolloff=5
@@ -84,6 +87,8 @@ filetype plugin indent on
 set undodir=~/.config/nvim/undodir
 
 call plug#begin()
+Plug 'junegunn/goyo.vim'
+Plug 'morhetz/gruvbox'
 Plug 'Shougo/unite.vim'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'Yggdroot/indentLine'
@@ -94,14 +99,20 @@ Plug 'Shougo/vimfiler.vim', { 'on': 'VimFiler' }
 Plug 'airblade/vim-gitgutter'
 Plug 'ctrlpvim/ctrlp.vim', { 'on': 'CtrlP' }
 Plug 'mhinz/vim-grepper'
-Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
 Plug 'justinmk/vim-sneak'
 Plug 'wolfgangmehner/lua-support'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 call plug#end()
+
+" disable vim-go :GoDef short cut (gd)
+" this is handled by LanguageClient [LC]
+let g:go_def_mapping_enabled = 0
+
 " Required for operations modifying multiple buffers like rename.
 set hidden
 
@@ -248,9 +259,8 @@ set laststatus=2
 let g:indentLine_enabled = 1
 let g:indentLine_char = "⟩"
 
-" palenight
 set background=dark
-"colorscheme palenight
+colorscheme gruvbox
 
 "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
 "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
