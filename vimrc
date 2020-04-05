@@ -93,17 +93,20 @@ Plug 'Shougo/unite.vim'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'vim-syntastic/syntastic'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
 Plug 'Shougo/vimfiler.vim', { 'on': 'VimFiler' }
 Plug 'airblade/vim-gitgutter'
-Plug 'ctrlpvim/ctrlp.vim', { 'on': 'CtrlP' }
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'mhinz/vim-grepper'
 Plug 'dense-analysis/ale'
 Plug 'justinmk/vim-sneak'
 Plug 'wolfgangmehner/lua-support'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
+Plug 'liuchengxu/vista.vim'
+
+Plug 'psf/black', { 'tag': '19.10b0' }
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
@@ -228,9 +231,8 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 "nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 " ===================== "
 
-" fuzzy finder
-nnoremap <Leader>p :CtrlP<CR>
-nnoremap <Leader>t :CtrlP<CR>
+" 
+nnoremap <Leader>v :Vista<CR>
 
 " find in files
 nnoremap <Leader>fp :Grepper<Space>-query<Space>
@@ -250,14 +252,66 @@ map ~ :VimFiler -explorer<CR>
 "Space ~ to open file tree from current buffer's dir
 map ` :VimFilerCurrentDir -explorer -find<CR>
 
-" airline
-let g:airline#extensions#tabline#enabled=1
-let g:airline_powerline_fonts=1
-set laststatus=2
-
 " indentline
 let g:indentLine_enabled = 1
 let g:indentLine_char = "⟩"
+
+" Show nearest function using vista
+function! NearestMethodOrFunction() abort
+  return get(b:, 'vista_nearest_method_or_function', '')
+endfunction
+
+set statusline+=%{NearestMethodOrFunction()}
+
+" By default vista.vim never run if you don't call it explicitly.
+"
+" If you want to show the nearest function in your statusline automatically,
+" you can add the following line to your vimrc 
+autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
+
+" lightline
+set laststatus=2
+let g:lightline = {
+      \ 'colorscheme': 'gruvbox',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'readonly', 'filename', 'modified', 'method' ] ]
+      \ },
+      \ 'component_function': {
+      \   'method': 'NearestMethodOrFunction'
+      \ },
+      \ }
+" How each level is indented and what to prepend.
+" This could make the display more compact or more spacious.
+" e.g., more compact: ["▸ ", ""]
+" Note: this option only works the LSP executives, doesn't work for `:Vista ctags`.
+let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
+
+" Executive used when opening vista sidebar without specifying it.
+" See all the avaliable executives via `:echo g:vista#executives`.
+let g:vista_default_executive = 'ctags'
+
+" Ensure you have installed some decent font to show these pretty symbols, then you can enable icon for the kind.
+let g:vista#renderer#enable_icon = 1
+
+" The default icons can't be suitable for all the filetypes, you can extend it as you wish.
+let g:vista#renderer#icons = {
+\   "function": "\uf794",
+\   "variable": "\uf71b",
+\  }
+
+" Run black on save for python files
+autocmd BufWritePre *.py execute ':Black'
+
+" Run rustfmt on save
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'rust': ['rustfmt'],
+\}
+
+let g:ale_fix_on_save = 1
+" rust clippy ale
+let g:ale_rust_cargo_use_clippy = 1
 
 set background=dark
 colorscheme gruvbox
