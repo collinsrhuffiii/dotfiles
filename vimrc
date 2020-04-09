@@ -80,6 +80,12 @@ nnoremap <Tab> :bnext!<CR>
 " Shift tab to switch to previous buffer
 nnoremap <S-Tab> :bprev!<CR><Paste>
 
+" Space w to save
+nmap <Leader>w :w<CR>
+
+" Space q to save and quit
+nmap <Leader>q :wq<CR>
+
 autocmd BufEnter * lcd %:p:h
 
 filetype plugin indent on
