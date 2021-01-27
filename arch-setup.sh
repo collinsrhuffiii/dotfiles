@@ -1,8 +1,12 @@
 #!/bin/sh
 
-sudo pacman -S git htop firefox \
+sudo pacman -S base-devel git htop firefox \
     tmux neovim python3 zsh python-pip \
-    nodejs zsh-autosuggestions ctags
+    nodejs npm \
+    zsh-autosuggestions ctags \
+    jq fd tcpdump \
+    ccls wireguard-tools resolvconf man \
+    gdb libpcap
 
 git clone https://github.com/collinsrhuffiii/dotfiles.git
 ssh-keygen -t ed25519 -C "collinsrhuffiii@gmail.com"
@@ -22,3 +26,16 @@ ln -s ~/dotfiles/tmux.conf ~/.tmux.conf
 ln -s ~/dotfiles/vimrc ~/.config/nvim/init.vim
 
 ln -s /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh .zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+mkdir src
+cd src
+git clone https://aur.archlinux.org/yay.git
+cd yay
+makepkg -si
+cd ~
+
+mkdir ~/go
+
+
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+cargo install eva exa hexyl ripgrep skim
