@@ -3,9 +3,12 @@ autoload -U colors && colors
 PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
 
 # History in cache directory:
-HISTSIZE=10000
-SAVEHIST=10000
+HISTSIZE=100000
+SAVEHIST=100000
 HISTFILE=~/.cache/zsh/history
+setopt HIST_FIND_NO_DUPS
+setopt INC_APPEND_HISTORY
+export HISTTIMEFORMAT="[%F %T] "
 
 # Basic auto/tab complete:
 autoload -U compinit

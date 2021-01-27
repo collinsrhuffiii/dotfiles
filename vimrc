@@ -50,8 +50,8 @@ vnoremap < <gv
 vnoremap > >gv
 
 " Set arrow keys to resize
-nnoremap <Left> :vertical resize -1<CR>
-nnoremap <Right> :vertical resize +1<CR>
+nnoremap <Left> :vertical resize +1<CR>
+nnoremap <Right> :vertical resize -1<CR>
 nnoremap <Up> :resize -1<CR>
 nnoremap <Down> :resize +1<CR>
 
@@ -91,6 +91,11 @@ autocmd BufEnter * lcd %:p:h
 filetype plugin indent on
 
 set undodir=~/.config/nvim/undodir
+
+" switch between source and header files
+nnoremap <Leader>oc :e %<.c<CR>
+nnoremap <Leader>oC :e %<.cpp<CR>
+nnoremap <Leader>oh :e %<.h<CR>
 
 call plug#begin()
 Plug 'junegunn/goyo.vim'
@@ -195,7 +200,7 @@ nmap <leader>rn <Plug>(coc-rename)
 augroup mygroup
   autocmd!
   " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  autocmd FileType typescript setl formatexpr=CocAction('formatSelected')
   " Update signature help on jump placeholder
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
@@ -396,3 +401,8 @@ endif
 
 " Italics
 let g:palenight_terminal_italics=1
+
+" Set python
+let g:python3_host_prog = '/Users/collins.huff/nvim-venv/bin/python3'
+
+let g:vim_markdown_conceal = 0
